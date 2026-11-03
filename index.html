@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Um Pedido Especial</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💍</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#C49A38;--gold-l:#E8D5A0;--gold-d:#8A6A18;
+  --cream:#FAF8F2;--ivory:#F5F0E6;--dark:#26190A;--text:#4A3D28;
+}
+body{
+  background:var(--cream);color:var(--text);
+  font-family:'Cormorant Garamond',Georgia,serif;
+  min-height:100vh;overflow-x:hidden;
+  display:flex;align-items:center;justify-content:center;
+  padding:40px 20px env(safe-area-inset-bottom,0px);
+}
+canvas{position:fixed;inset:0;pointer-events:none;z-index:0}
+
+.card{
+  position:relative;z-index:1;
+  background:var(--ivory);
+  border:1px solid rgba(196,154,56,.3);
+  max-width:560px;width:100%;
+  padding:60px 56px 52px;
+  text-align:center;
+  box-shadow:0 8px 48px rgba(38,25,10,.08);
+  opacity:0;animation:rise 1.2s ease .3s forwards;
+}
+.card::before{
+  content:'';position:absolute;inset:11px;
+  border:1px solid rgba(196,154,56,.18);pointer-events:none;
+}
+
+/* corners */
+.c{position:absolute;width:44px;height:44px}
+.c svg{width:100%;height:100%}
+.c.tl{top:5px;left:5px}
+.c.tr{top:5px;right:5px;transform:scaleX(-1)}
+.c.bl{bottom:5px;left:5px;transform:scaleY(-1)}
+.c.br{bottom:5px;right:5px;transform:scale(-1)}
+
+.pretag{
+  font-size:.65rem;letter-spacing:7px;
+  text-transform:uppercase;color:var(--gold);margin-bottom:22px;
+}
+
+.title{
+  font-family:'Great Vibes',cursive;
+  font-size:clamp(2.2rem,8vw,3.2rem);
+  color:var(--dark);line-height:1.1;margin-bottom:6px;
+}
+
+.orn{
+  display:flex;align-items:center;justify-content:center;
+  gap:8px;margin:20px auto;
+}
+.orn-l{width:70px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.orn-l.r{background:linear-gradient(90deg,var(--gold),transparent)}
+.orn-g{width:6px;height:6px;border:1px solid var(--gold);transform:rotate(45deg)}
+
+.to-label{
+  font-size:.62rem;letter-spacing:6px;
+  text-transform:uppercase;color:var(--gold);margin-bottom:10px;
+}
+.names{
+  font-family:'Great Vibes',cursive;
+  font-size:clamp(2rem,7vw,2.8rem);
+  color:var(--dark);line-height:1.2;margin-bottom:30px;
+}
+
+.question{
+  font-size:clamp(1rem,3vw,1.18rem);
+  font-weight:300;line-height:1.85;
+  color:var(--text);margin-bottom:30px;
+}
+.question em{font-style:italic;color:var(--dark)}
+
+.heart{
+  font-size:1.4rem;color:var(--gold);
+  display:block;margin-bottom:28px;letter-spacing:12px;
+}
+
+.sep{height:1px;background:var(--gold-l);margin:0 0 28px}
+
+.sig-label{
+  font-size:.6rem;letter-spacing:5px;
+  text-transform:uppercase;color:var(--gold);margin-bottom:10px;
+}
+/* ✏️ Edite os nomes dos noivos aqui: */
+.sig{
+  font-family:'Great Vibes',cursive;
+  font-size:clamp(1.6rem,5vw,2.3rem);color:var(--dark);
+}
+
+@keyframes rise{
+  from{opacity:0;transform:translateY(22px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+@media(max-width:480px){
+  .card{padding:44px 26px 40px}
+  .card::before{inset:8px}
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --cream:#1A1610;--ivory:#201C14;
+    --dark:#F0E8D4;--text:#C0B49A;
+    --gold:#D4A840;--gold-l:#5C4C18;--gold-d:#DEB860;
+  }
+}
+</style>
+</head>
+<body>
+
+<canvas id="c"></canvas>
+
+<div class="card">
+  <div class="c tl"><svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 41L3 3L41 3" stroke="#C49A38" stroke-width=".8" fill="none" opacity=".5"/>
+    <path d="M3 30Q14 30 14 19Q14 8 25 8" stroke="#C49A38" stroke-width=".5" fill="none" opacity=".35"/>
+    <circle cx="3" cy="3" r="2" fill="#C49A38" opacity=".7"/>
+  </svg></div>
+  <div class="c tr"><svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 41L3 3L41 3" stroke="#C49A38" stroke-width=".8" fill="none" opacity=".5"/>
+    <path d="M3 30Q14 30 14 19Q14 8 25 8" stroke="#C49A38" stroke-width=".5" fill="none" opacity=".35"/>
+    <circle cx="3" cy="3" r="2" fill="#C49A38" opacity=".7"/>
+  </svg></div>
+  <div class="c bl"><svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 41L3 3L41 3" stroke="#C49A38" stroke-width=".8" fill="none" opacity=".5"/>
+    <path d="M3 30Q14 30 14 19Q14 8 25 8" stroke="#C49A38" stroke-width=".5" fill="none" opacity=".35"/>
+    <circle cx="3" cy="3" r="2" fill="#C49A38" opacity=".7"/>
+  </svg></div>
+  <div class="c br"><svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 41L3 3L41 3" stroke="#C49A38" stroke-width=".8" fill="none" opacity=".5"/>
+    <path d="M3 30Q14 30 14 19Q14 8 25 8" stroke="#C49A38" stroke-width=".5" fill="none" opacity=".35"/>
+    <circle cx="3" cy="3" r="2" fill="#C49A38" opacity=".7"/>
+  </svg></div>
+
+  <p class="pretag">Um pedido especial</p>
+
+  <div class="orn">
+    <span class="orn-l"></span>
+    <span class="orn-g"></span>
+    <span class="orn-l r"></span>
+  </div>
+
+  <p class="to-label">Para os nossos queridos</p>
+  <div class="names">Carlos Eduardo &amp; Marcela</div>
+
+  <p class="question">
+    Vocês são parte da nossa história e <em>da nossa vida</em>.<br>
+    Gostaríamos que fizessem parte do nosso grande dia também —<br>
+    sendo nossos <em>Padrinhos de Casamento</em>.
+  </p>
+
+  <span class="heart">♡ &nbsp; ♡ &nbsp; ♡</span>
+
+  <div class="sep"></div>
+
+  <p class="sig-label">Com amor</p>
+  <!-- ✏️ Substitua pelos nomes dos noivos -->
+  <div class="sig">Sebastian &amp; Ingrid</div>
+</div>
+
+<script>
+(function(){
+  var cvs=document.getElementById('c'),ctx=cvs.getContext('2d');
+  var N=45,W,H,ps=[];
+  var COLS=['#C49A38','#E8D5A0','#D4A84C','#C8A8A0','#EDD9B0'];
+  function rnd(a,b){return a+Math.random()*(b-a)}
+  function mk(ry){
+    return{x:rnd(0,W),y:ry?rnd(-20,H):rnd(-20,-5),
+      sz:rnd(2,6),vx:rnd(-.2,.2),vy:rnd(.28,.85),
+      rot:rnd(0,360),rs:rnd(-.6,.6),a:rnd(.18,.55),
+      s:Math.random()>.45?'p':'d',
+      col:COLS[0|Math.random()*COLS.length]};
+  }
+  function resize(){W=cvs.width=innerWidth;H=cvs.height=innerHeight}
+  function init(){ps=[];for(var i=0;i<N;i++)ps.push(mk(true))}
+  function tick(){
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<ps.length;i++){
+      var p=ps[i];
+      p.x+=p.vx+Math.sin(p.y*.01)*.2;p.y+=p.vy;p.rot+=p.rs;
+      if(p.y>H+12){ps[i]=mk(false);continue}
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);
+      ctx.globalAlpha=p.a;ctx.fillStyle=p.col;
+      if(p.s==='p'){ctx.beginPath();ctx.ellipse(0,0,p.sz*.46,p.sz*1.05,0,0,Math.PI*2);ctx.fill()}
+      else{ctx.beginPath();ctx.arc(0,0,p.sz*.34,0,Math.PI*2);ctx.fill()}
+      ctx.restore();
+    }
+    requestAnimationFrame(tick);
+  }
+  addEventListener('resize',function(){resize();init()});
+  resize();init();tick();
+}());
+</script>
+</body>
+</html>
